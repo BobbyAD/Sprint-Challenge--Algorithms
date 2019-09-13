@@ -97,14 +97,117 @@ class SortingRobot:
         Sort the robot's list.
         """
         # Fill this out
-        pass
+        """
+        I should be able to implement variation on the bubble sort with what I have. 
+        Pick up, move right and compare, swap if I need to, move left to put block back, move right.
+        The light can be used to determine if I've swapped something in the current iteration.
+        To keep things optimal, I can run the robot left to right, swapping anything that needs to be swapped up.
+        Then when it hits the far right, go back to the left and swap things down as I go left.
+        To determine if I need to move left or right, write helper methods that have their own while loops until they're at the end.
+        Methods (for reference):
+            can_move_right
+            can_move_left
+            move_right
+            move_left
+            swap_item - swaps with currently held
+            compare_item - compares with currently held item, = 0 , < -1, > 1, None None
+            set_light_on
+            set_light_off
+            light_is_on
+        """
+
+        #Having no items at the end and beginning of each loop is the goal here.
+        #Sorting up
+        # def sort_right(self):
+        #     while self.can_move_right() == True:
+        #         self.swap_item()
+        #         self.move_right()
+        #         if self.compare_item() > 0:
+        #             self.swap_item()
+        #             self.set_light_on()
+        #         self.move_left()
+        #         self.swap_item()
+        #         #Back to having no item
+        #         self.move_right()
+        
+        #Optimize by moving as far right as possible before going back to the left
+        #Have it bubble down to the left as I go that way
+        #There's something inefficient in  here, I fail the second stretch test but pass all others
+        #What if I only did this once my light came on
+        def sort_right(self):
+            while self.can_move_right() == True:
+                self.swap_item()
+                self.move_right()
+                if self.compare_item() > 0:
+                    #Moving this item as far right as I can
+                    while self.compare_item() > 0 and self.can_move_right():
+                        self.move_right()
+                    #Without this if statement, you can never place the highest item at the end
+                    if self.can_move_right():
+                        self.move_left()
+                    self.swap_item()
+                    self.set_light_on()
+                while self.compare_item() != None:
+                    self.move_left()
+                    #Sorting as I go back down to return an item to the None slot
+                    if self.compare_item() == 1:
+                        self.swap_item()
+                self.swap_item()
+                #Back to having no item
+                self.move_right()
+
+        # Sorting down
+        def sort_left(self):
+            while self.can_move_left() == True and self.light_is_on():
+                self.swap_item()
+                self.move_left()
+                if self.compare_item() < 0:
+                    self.swap_item()
+                    self.set_light_on()
+                self.move_right()
+                self.swap_item()
+                #Back to having no item
+                self.move_left()
+
+        #Not sure why this is less efficient than the simple sort_left
+        #Something in here must cause problems if you're already mostly sorted
+        # def sort_left(self):
+        #     while self.can_move_left() == True and self.light_is_on():
+        #         self.swap_item()
+        #         self.move_left()
+        #         if self.compare_item() < 0:
+        #             #Moving this item as far left as I can
+        #             while self.compare_item() < 0 and self.can_move_left():
+        #                 self.move_left()
+        #             if self.can_move_left():
+        #                 self.move_right()
+        #             self.swap_item()
+        #             self.set_light_on()
+        #         while self.compare_item() != None:
+        #             self.move_right()
+        #             #Sorting as I go back up to return an item to the None slot
+        #             if self.compare_item() == -1:
+        #                 self.swap_item()
+        #         self.swap_item()
+        #         #Back to having no item
+        #         self.move_left()
+        
+        self.set_light_on()
+
+        while self.light_is_on() == True:
+            self.set_light_off()
+            sort_right(self)
+            sort_left(self)
+
 
 
 if __name__ == "__main__":
     # Test our your implementation from the command line
     # with `python robot_sort.py`
 
-    l = [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78, 14, 35, 90, 54, 5, 0, 87, 82, 96, 43, 92, 62, 97, 69, 94, 99, 93, 76, 47, 2, 88, 51, 40, 95, 6, 23, 81, 30, 19, 25, 91, 18, 68, 71, 9, 66, 1, 45, 33, 3, 72, 16, 85, 27, 59, 64, 39, 32, 24, 38, 84, 44, 80, 11, 73, 42, 20, 10, 29, 22, 98, 17, 48, 52, 67, 53, 74, 77, 37, 63, 31, 7, 75, 36, 89, 70, 34, 79, 83, 13, 57, 86, 12, 56, 50, 55, 46]
+    # l = [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78, 14, 35, 90, 54, 5, 0, 87, 82, 96, 43, 92, 62, 97, 69, 94, 99, 93, 76, 47, 2, 88, 51, 40, 95, 6, 23, 81, 30, 19, 25, 91, 18, 68, 71, 9, 66, 1, 45, 33, 3, 72, 16, 85, 27, 59, 64, 39, 32, 24, 38, 84, 44, 80, 11, 73, 42, 20, 10, 29, 22, 98, 17, 48, 52, 67, 53, 74, 77, 37, 63, 31, 7, 75, 36, 89, 70, 34, 79, 83, 13, 57, 86, 12, 56, 50, 55, 46]
+
+    l = [5, 4, 3, 2, 1]
 
     robot = SortingRobot(l)
 
