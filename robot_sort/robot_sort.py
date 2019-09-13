@@ -132,6 +132,8 @@ class SortingRobot:
         
         #Optimize by moving as far right as possible before going back to the left
         #Have it bubble down to the left as I go that way
+        #There's something inefficient in  here, I fail the second stretch test but pass all others
+        #What if I only did this once my light came on
         def sort_right(self):
             while self.can_move_right() == True:
                 self.swap_item()
@@ -140,6 +142,7 @@ class SortingRobot:
                     #Moving this item as far right as I can
                     while self.compare_item() > 0 and self.can_move_right():
                         self.move_right()
+                    #Without this if statement, you can never place the highest item at the end
                     if self.can_move_right():
                         self.move_left()
                     self.swap_item()
@@ -166,7 +169,8 @@ class SortingRobot:
                 #Back to having no item
                 self.move_left()
 
-        #Not sure why this is less efficient than the other one, but it is?
+        #Not sure why this is less efficient than the simple sort_left
+        #Something in here must cause problems if you're already mostly sorted
         # def sort_left(self):
         #     while self.can_move_left() == True and self.light_is_on():
         #         self.swap_item()
