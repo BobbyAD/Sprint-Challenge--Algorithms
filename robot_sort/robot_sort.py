@@ -131,12 +131,13 @@ class SortingRobot:
         #         self.move_right()
         
         #Optimize by moving as far right as possible before going back to the left
-        #Write that first, then write it so it bubbles left on its way back
+        #Have it bubble down to the left as I go that way
         def sort_right(self):
             while self.can_move_right() == True:
                 self.swap_item()
                 self.move_right()
                 if self.compare_item() > 0:
+                    #Moving this item as far right as I can
                     while self.compare_item() > 0 and self.can_move_right():
                         self.move_right()
                     if self.can_move_right():
@@ -145,13 +146,14 @@ class SortingRobot:
                     self.set_light_on()
                 while self.compare_item() != None:
                     self.move_left()
+                    #Sorting as I go back down to return an item to the None slot
                     if self.compare_item() == 1:
                         self.swap_item()
                 self.swap_item()
                 #Back to having no item
                 self.move_right()
 
-        #Sorting down
+        # Sorting down
         def sort_left(self):
             while self.can_move_left() == True and self.light_is_on():
                 self.swap_item()
@@ -163,6 +165,28 @@ class SortingRobot:
                 self.swap_item()
                 #Back to having no item
                 self.move_left()
+
+        #Not sure why this is less efficient than the other one, but it is?
+        # def sort_left(self):
+        #     while self.can_move_left() == True and self.light_is_on():
+        #         self.swap_item()
+        #         self.move_left()
+        #         if self.compare_item() < 0:
+        #             #Moving this item as far left as I can
+        #             while self.compare_item() < 0 and self.can_move_left():
+        #                 self.move_left()
+        #             if self.can_move_left():
+        #                 self.move_right()
+        #             self.swap_item()
+        #             self.set_light_on()
+        #         while self.compare_item() != None:
+        #             self.move_right()
+        #             #Sorting as I go back up to return an item to the None slot
+        #             if self.compare_item() == -1:
+        #                 self.swap_item()
+        #         self.swap_item()
+        #         #Back to having no item
+        #         self.move_left()
         
         self.set_light_on()
 
