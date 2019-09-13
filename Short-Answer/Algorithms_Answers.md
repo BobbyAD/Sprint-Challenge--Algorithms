@@ -12,9 +12,9 @@ c) `O(n)` - executes an action (add 2) once for every initial input
 
 ## Exercise II
 
-To find the nth floor where the eggs don't break I can use a binary search that only goes down if the egg doesn't break, and up if it does.
+To find the nth floor where the eggs don't break I can use a binary search that goes down if the egg breaks, and up if it doesn't.
 
-Pseudocode: floors is a list, broken_egg just represents a boolean for if the egg broke or didn't
+Pseudocode: floors is a list, broken_egg represents a boolean that's true if the egg broke, false if it didn't
 O(log(n))
 ```
     findFloor(floors):

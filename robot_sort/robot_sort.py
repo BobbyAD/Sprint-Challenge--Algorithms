@@ -97,7 +97,58 @@ class SortingRobot:
         Sort the robot's list.
         """
         # Fill this out
-        pass
+        """
+        I should be able to implement variation on the bubble sort with what I have. 
+        Pick up, move right and compare, swap if I need to, move left to put block back, move right.
+        The light can be used to determine if I've swapped something in the current iteration.
+        To keep things optimal, I can run the robot left to right, swapping anything that needs to be swapped up.
+        Then when it hits the far right, go back to the left and swap things down as I go left.
+        To determine if I need to move left or right, write helper methods that have their own while loops until they're at the end.
+        Methods (for reference):
+            can_move_right
+            can_move_left
+            move_right
+            move_left
+            swap_item - swaps with currently held
+            compare_item - compares with currently held item, = 0 , < -1, > 1, None None
+            set_light_on
+            set_light_off
+            light_is_on
+        """
+
+        #Having no items at the end and beginning of each loop is the goal here.
+        #Sorting up
+        def sort_right(self):
+            while self.can_move_right() == True:
+                self.swap_item()
+                self.move_right()
+                if self.compare_item() > 0:
+                    self.swap_item()
+                    self.set_light_on()
+                self.move_left()
+                self.swap_item()
+                #Back to having no item
+                self.move_right()
+        #Sorting down
+        def sort_left(self):
+            while self.can_move_left() == True:
+                self.swap_item()
+                self.move_left()
+                if self.compare_item() < 0:
+                    self.swap_item()
+                    self.set_light_on()
+                self.move_right()
+                self.swap_item()
+                #Back to having no item
+                self.move_left()
+        
+        self.set_light_on()
+
+        while self.light_is_on() == True:
+            self.set_light_off()
+            sort_right(self)
+            sort_left(self)
+
 
 
 if __name__ == "__main__":
