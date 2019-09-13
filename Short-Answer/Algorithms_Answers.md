@@ -12,3 +12,26 @@ c) `O(n)` - executes an action (add 2) once for every initial input
 
 ## Exercise II
 
+To find the nth floor where the eggs don't break I can use a binary search that only goes down if the egg doesn't break, and up if it does.
+
+Pseudocode: floors is a list, broken_egg just represents a boolean for if the egg broke or didn't
+O(log(n))
+```
+    findFloor(floors):
+        highPoint = len(floors)
+        currentMid = len(floors//2)/2
+        found = False
+        while (found = False):
+            if (floors[currentMid] - 1 != broken_egg) and (floors[currentMid] == broken_egg):
+                found = True
+                return currentMid
+            #In case the top floor is the answer
+            elif (floors[highPoint] - 1 != broken_egg) and (floors[highPoint] == broken_egg):
+                found = True
+                return highPoint
+            elif (floors[currentMid] == broken_egg):
+                highPoint = currentMid
+                currentMid = currentMid//2
+            elif (floors[currentMid] != broken_egg):
+                currentMid += (highPoint - currentMid)//2
+```
